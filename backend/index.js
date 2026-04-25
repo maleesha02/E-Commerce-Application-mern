@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import Student from './models/student.js';
 import studentRouter from './Routes/studentRouter.js';
 import productRouter from './Routes/productRouter.js';
+import userRouter from './Routes/userRouter.js';
 
 const app = express();
 
@@ -17,6 +18,7 @@ mongoose.connect("mongodb+srv://admin:123@cluster0.aalkbry.mongodb.net/?appName=
 
 app.use("/students", studentRouter);
 app.use("/products" , productRouter);
+app.use("/users" , userRouter);
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
