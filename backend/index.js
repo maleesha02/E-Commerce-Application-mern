@@ -10,11 +10,11 @@ const app = express();
 
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb+srv://admin:123@cluster0.aalkbry.mongodb.net/?appName=Cluster0").then(()=>{
+mongoose.connect("mongodb://admin:123@ac-xxakvcg-shard-00-00.aalkbry.mongodb.net:27017,ac-xxakvcg-shard-00-01.aalkbry.mongodb.net:27017,ac-xxakvcg-shard-00-02.aalkbry.mongodb.net:27017/?ssl=true&replicaSet=atlas-trhm8d-shard-0&authSource=admin&appName=Cluster0").then(()=>{
     console.log("Connected to MongoDB");
-}).catch(()=>{
-    console.log("Connection failed");
-})
+}).catch((err)=>{
+    console.log("Connection failed:", err);
+});
 
 app.use("/students", studentRouter);
 app.use("/products" , productRouter);
