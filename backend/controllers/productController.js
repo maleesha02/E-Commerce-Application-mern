@@ -1,9 +1,16 @@
 import Product from "../models/product.js";
 
-export function getProduct(req,res){
-    Product.find().then((data)=>{
-        res.json(data);
-    })
+export async function getProduct(req,res){
+    
+    try{
+        const products = await Product.find();
+        res.json(products);
+    }catch(err){
+        res.json({
+            message : "Failed to retrieve products",
+            error : err
+        })
+    }
 }
 
 export function saveProduct(req,res){
