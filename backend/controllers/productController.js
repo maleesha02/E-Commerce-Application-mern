@@ -1,4 +1,5 @@
 import Product from "../models/product.js";
+import { isAdmin } from "./userController.js";
 
 export async function getProduct(req,res){
     
@@ -14,25 +15,17 @@ export async function getProduct(req,res){
 }
 
 export function saveProduct(req,res){
-    if(req.user == null){
+
+    if(!isAdmin(req)){
         res.status(403).json({
-            message : "Unauthorized"
+            message : "You are not authorized to add product"
         })
-        return;
+        return
     }
 
-    if(req.user.role != "admin"){
-        res.status(403).json({
-            message : "Unauthorized..You need to be an admin to add products"
-        })
-        return;
-    }
-
-    const product = new Product({
-        name : req.body.name ,
-        price : req.body.price ,
-        description : req.body.description
-    })
+    const product = new Product(
+        req.body
+    )
 
     product.save().then(()=>{
         res.json({message : 'Product added Successfully'});

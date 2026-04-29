@@ -1,8 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import Student from './models/student.js';
-import studentRouter from './Routes/studentRouter.js';
 import productRouter from './Routes/productRouter.js';
 import userRouter from './Routes/userRouter.js';
 import jwt from 'jsonwebtoken';
@@ -41,7 +39,6 @@ mongoose.connect("mongodb://admin:123@ac-xxakvcg-shard-00-00.aalkbry.mongodb.net
     console.log("Connection failed:", err);
 });
 
-app.use("/students", studentRouter);
 app.use("/products" , productRouter);
 app.use("/users" , userRouter);
 
