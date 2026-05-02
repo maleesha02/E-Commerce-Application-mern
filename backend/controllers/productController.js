@@ -48,7 +48,9 @@ export async function delectProduct(req,res){
         return
     }
     try{
-        await Product.deleteOne({productID : req.params.productId});
+        await Product.deleteOne(
+            {productID : req.params.productId}
+        );
         res.json({
             message : "Product deleted successfully"
         });
@@ -59,3 +61,67 @@ export async function delectProduct(req,res){
         });
     }
 } 
+
+export async function updateProduct(req,res){
+    if(!isAdmin(req)){
+        res.status(403).json({
+            message : "You are not authorized to update product"
+        });
+        return
+    }
+
+    const productId = req.params.productId;
+    const updateData = req.body;
+
+    try{
+        await Product.updateOne(
+            {productID : productId},
+            updateData
+        )
+
+        res.json({
+            message : "Product updated successfully"
+        })
+    }catch(err){
+        res.status(500).json({
+            message : "Failed to update product",
+            error : err
+        })
+    }
+}
+
+export async function getProductById(req,res){
+    const productId = req.params.productId;
+
+    try{
+        const product = await Product.findOne(
+            {productID : productId}
+        );
+
+        if(product == null){
+            res.status(404).json({
+                message : "Product not found"
+            })
+            return
+        }
+
+        if(product.isAvailable){
+            res.json(product);
+
+        }else{
+            if(!isAdmin(req)){
+                res.status(403).json({
+                    message : "Product not Found"
+                })
+            }else{
+                res.json(product);
+            }
+        }
+    }catch(err){
+        res.status(500).json({
+            message : "Intrnal server error",
+            error : err
+        });
+
+    }
+}
