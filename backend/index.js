@@ -4,9 +4,12 @@ import mongoose from 'mongoose';
 import productRouter from './Routes/productRouter.js';
 import userRouter from './Routes/userRouter.js';
 import jwt from 'jsonwebtoken';
+import cors from 'cors';
 import orderRouter from './Routes/orderRouter.js';
 
 const app = express();
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -40,9 +43,9 @@ mongoose.connect("mongodb://admin:123@ac-xxakvcg-shard-00-00.aalkbry.mongodb.net
     console.log("Connection failed:", err);
 });
 
-app.use("/products" , productRouter);
-app.use("/users" , userRouter);
-app.use("/orders" , orderRouter);
+app.use("/api/products" , productRouter);
+app.use("/api/users" , userRouter);
+app.use("/api/orders" , orderRouter);
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
